@@ -1,14 +1,25 @@
 import React, { Component } from 'react';
-import { AppRegistry, Text, View } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View } from 'react-native';
 
 import Runinfo from './components/run-info';
+
+const styles = StyleSheet.create({
+  infoWrapper: {
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
+    right: 0,
+    flexDirection: 'row',
+    flex: 1
+  }
+});
 
 export default class tutsplus_get_started extends Component {
   render() {
     return (
-      <View>
-        <Text>MAPVIEW</Text>
-        <View>
+      <View style={{flex: 1}}>
+        <Text style={{flex: 1, backgroundColor: 'red'}}>MAPVIEW</Text>
+        <View style={styles.infoWrapper}>
           <Runinfo title="Distance" value="0 km"></Runinfo>
           <Runinfo title="Speed" value="0 km/h"></Runinfo>
           <Runinfo title="Direction" value="NE"></Runinfo>
