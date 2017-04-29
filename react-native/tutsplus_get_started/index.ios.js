@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, View } from 'react-native';
 
-import Runinfo from './components/run-info';
+import RunInfo from './components/run-info';
 
 const styles = StyleSheet.create({
   infoWrapper: {
@@ -20,9 +20,9 @@ export default class tutsplus_get_started extends Component {
       <View style={{flex: 1}}>
         <Text style={{flex: 1, backgroundColor: 'red'}}>MAPVIEW</Text>
         <View style={styles.infoWrapper}>
-          <Runinfo title="Distance" value="0 km"></Runinfo>
-          <Runinfo title="Speed" value="0 km/h"></Runinfo>
-          <Runinfo title="Direction" value="NE"></Runinfo>
+          <RunInfo title="Distance" value="0 km" />
+          <RunInfo title="Speed" value="0 km/h" />
+          <RunInfo title="Direction" value="NE" />
         </View>
       </View>
     );
