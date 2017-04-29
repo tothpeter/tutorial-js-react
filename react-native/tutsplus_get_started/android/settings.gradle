@@ -1,0 +1,3 @@
+rootProject.name = 'tutsplus_get_started'
+
+include ':app'
