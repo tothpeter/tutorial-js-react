@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
 
+import MapView from 'react-native-maps';
+
 import RunInfo from './components/run-info';
 import RunInfoNumeric from './components/run-info-numeric';
 
@@ -13,18 +15,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1
   },
-  textInput: {
-    height: 55,
-    padding: 10,
-    paddingTop: 25,
-    fontSize: 20
+
+  map: {
+    ...StyleSheet.absoluteFillObject
   }
 });
+
+let id = 0;
 
 export default class tutsplus_get_started extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { markers: [] };
 
     setInterval(() => {
       this.distanceInfo.setState({ value: Math.random() * 100 })
@@ -32,30 +34,40 @@ export default class tutsplus_get_started extends Component {
       this.directionInfo.setState({
         value: this.directionInfo.state.value === 'N' ? 'NW':'N'
       })
-    }, 500);
+    }, 1000);
+  }
+
+  addMarker(region) {
+    let now = (new Date).getTime();
+
+    if (this.state.lastAddedMarker > now - 5000) {
+      return;
+    }
+
+    this.setState({
+      markers: [
+        ...this.state.markers, {
+          coordinate: region,
+          key: id++
+        }
+      ],
+
+      lastAddedMarker: now
+    })
   }
 
   render() {
     return (
       <View style={{flex: 1}}>
-        <TextInput
-          style={styles.textInput}
-          autoCapitalize="words"
-          placeholder="Type something..."
-          onChangeText={(text) => this.setState({text})}
-          // onBlur={() => this.setState({text: this.state.text.toUpperCase()})}
-        />
-        <TouchableHighlight
-          onPress={() => this.setState({confirmedText: this.state.text }) }
-          onLongPress={() => this.setState({confirmedText: this.state.text.toLowerCase() }) }
+        <MapView style={styles.map}
+          showsUserLocation
+          followsUserLocation
+          onRegionChange={(region) => this.addMarker(region) }
         >
-          <Text style={{fontSize: 16, backgroundColor: '#EEE', textAlign: 'center'}}>
-            Press me
-          </Text>
-        </TouchableHighlight>
-        <Text style={{flex: 1, fontSize:18}}>
-          {this.state.confirmedText}
-        </Text>
+          {this.state.markers.map((marker) => (
+            <MapView.Marker coordinate={marker.coordinate} key={marker.key} />
+          ))}
+        </MapView>
         <View style={styles.infoWrapper}>
           <RunInfoNumeric title="Distance"
             unit="km"
